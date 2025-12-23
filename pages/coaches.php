@@ -3,20 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard Admin</title>
+  <title>Coachs disponibles</title>
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
 
 <header class="topbar">
   <div class="nav">
-    <a class="brand" href="dashboard.admin.php">
+    <a class="brand" href="coach.php">
       <img alt="logo" width="24" height="24"
         src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none'><path d='M6 14c2.5-6 9.5-6 12 0' stroke='%2322c55e' stroke-width='2' stroke-linecap='round'/><path d='M7 7h10' stroke='%23e5e7eb' stroke-width='2' stroke-linecap='round'/></svg>">
-      SportCoach <span class="badge">Admin</span>
+      SportCoach <span class="badge">Coachs</span>
     </a>
     <nav class="navlinks">
-      <a class="active" href="dashboard.admin.php">Dashboard</a>
+      <a class="active" href="coach.php">Coachs</a>
+      <a href="dashboard.sportif.php">Dashboard Sportif</a>
       <a href="login.php">Déconnexion</a>
     </nav>
   </div>
@@ -25,57 +26,43 @@
 <main class="container">
   <div class="header">
     <div>
-      <h1 class="h-title">Dashboard Admin</h1>
-      <p class="h-sub">Gérer tous les comptes (sportifs + coachs) et supprimer.</p>
+      <h1 class="h-title">Coachs disponibles</h1>
+      <p class="h-sub">Liste à remplir depuis MySQL (PHP).</p>
     </div>
+
     <div class="actions">
-      <input class="input" style="max-width:260px" placeholder="Recherche (front only)" />
-      <select class="select" style="max-width:200px">
-        <option>Tous rôles</option>
-        <option>Sportifs</option>
-        <option>Coachs</option>
+      <input class="input" style="max-width:260px" placeholder="Rechercher (front only)" />
+      <select class="select" style="max-width:220px">
+        <option>Toutes disciplines</option>
+        <option>Football</option>
+        <option>Tennis</option>
+        <option>Natation</option>
       </select>
     </div>
   </div>
 
   <section class="card">
     <div class="card-h">
-      <h2 class="card-title">Comptes</h2>
-      <span class="pill">Admin</span>
+      <h2 class="card-title">Résultats</h2>
+      <span class="pill">Liste</span>
     </div>
     <div class="card-b">
 
-      <table class="table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nom</th>
-            <th>Email</th>
-            <th>Rôle</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- PHP LOOP HERE -->
-          <tr>
-            <td colspan="5" class="empty">Liste des comptes à afficher via PHP.</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="note" style="margin-top:12px">
-        Admin delete: POST côté PHP (CSRF + confirmation + éviter suppression de soi-même si tu veux).
+      <!-- PHP LOOP HERE: foreach($coachs as $c) { ... } -->
+      <div class="grid grid-3" id="coachList">
+        <!-- Laisse vide si tu veux.
+             Sinon tu peux garder 1 card "exemple" puis la remplacer par PHP -->
+        <div class="empty">
+          Zone des coachs (cards). Remplissage côté PHP.
+        </div>
       </div>
 
       <div class="hr"></div>
 
-      <button class="btn danger"
-        data-confirm
-        data-confirm-title="Supprimer un compte"
-        data-confirm-msg="Supprimer ce compte définitivement ?"
-        data-confirm-action-hint="Brancher un POST vers AdminController::deleteUser($id) + CSRF.">
-        Supprimer (exemple)
-      </button>
+      <div class="note">
+        Action "Voir profil" → profil.coach.php?id=...
+        Action "Réserver" → page/section de réservation (tu peux gérer via dashboard sportif).
+      </div>
 
     </div>
   </section>
