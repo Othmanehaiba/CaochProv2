@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard Coach</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
 </head>
 <body>
 
@@ -103,33 +103,62 @@
     </section>
 
     <aside class="card">
-      <div class="card-h">
-        <h2 class="card-title">Prochain sportif</h2>
-        <span class="pill ok">Prochain</span>
+  <div class="card-h">
+    <h2 class="card-title">Ajouter un créneau</h2>
+    <span class="pill ok">Disponibilité</span>
+  </div>
+
+  <div class="card-b">
+    <p style="margin-top:0;color:var(--muted);line-height:1.6">
+      Le coach crée un créneau “disponible”. Le sportif ne peut réserver que ces créneaux.
+    </p>
+
+    <!-- action + method to connect in PHP -->
+    <form class="form" data-js="validate" action="#" method="post">
+      <!-- You will set coach_id from session in PHP, no need to show it here -->
+      <!-- <input type="hidden" name="coach_id" value="<?php echo $_SESSION['id']; ?>"> -->
+
+      <div class="field">
+        <label class="label" for="date_seance">Date</label>
+        <input class="input" id="date_seance" name="date_seance" type="date" required />
       </div>
-      <div class="card-b">
-        <div class="empty">
-          Détails du prochain sportif + séance (à venir depuis PHP).
+
+      <div class="field">
+        <label class="label" for="heure">Heure</label>
+        <input class="input" id="heure" name="heure" type="time" required />
+      </div>
+
+      <div class="field">
+        <label class="label" for="duree">Durée (minutes)</label>
+        <input class="input" id="duree" name="duree" type="number" min="15" step="15" required placeholder="ex: 60" />
+      </div>
+
+      <div class="field">
+        <label class="label" for="statut">Statut</label>
+        <select class="select" id="statut" name="statut" required>
+          <option value="disponible">disponible</option>
+          <option value="reservee" disabled>reservée (auto)</option>
+        </select>
+        <div class="note">
+          "reservée" doit être mise automatiquement quand un sportif réserve.
         </div>
-        <div class="hr"></div>
-
-        <button class="btn primary"
-          data-confirm
-          data-confirm-title="Accepter la demande"
-          data-confirm-msg="Accepter cette séance ?"
-          data-confirm-action-hint="Brancher un POST vers ReservationController::accept().">
-          Accepter (exemple)
-        </button>
-
-        <button class="btn danger"
-          data-confirm
-          data-confirm-title="Refuser la demande"
-          data-confirm-msg="Refuser cette séance ?"
-          data-confirm-action-hint="Brancher un POST vers ReservationController::reject().">
-          Refuser (exemple)
-        </button>
       </div>
-    </aside>
+
+      <button class="btn primary" type="submit">
+        <img alt="" width="18" height="18"
+          src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none'><path d='M4 9h10' stroke='%23e5e7eb' stroke-width='2' stroke-linecap='round'/><path d='M9 4v10' stroke='%2322c55e' stroke-width='2' stroke-linecap='round'/></svg>">
+        Ajouter
+      </button>
+    </form>
+
+    <div class="hr"></div>
+
+    <div class="note">
+      Règle côté PHP: empêcher deux créneaux identiques pour le même coach (même date + heure).
+    </div>
+  </div>
+</aside>
+
   </div>
 
   <div class="footer">SportCoach • Template front</div>

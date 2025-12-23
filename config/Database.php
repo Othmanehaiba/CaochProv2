@@ -1,9 +1,9 @@
 <?php
 class Database{
-    protected $host = "localhost";
-    protected $user = "root";
-    protected $pass = "Root@123";
-    protected $dbName ="CoachProv2";
+    private $host = "localhost";
+    private $user = "root";
+    private $pass = "Root@123";
+    private $dbName ="coach_platform";
 
     protected function connect(){
         $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->dbName;

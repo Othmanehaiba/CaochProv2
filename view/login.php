@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Connexion</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
 </head>
 <body>
 
@@ -23,7 +23,6 @@
     </nav>
   </div>
 </header>
-
 <main class="container">
   <div class="header">
     <div>
@@ -31,6 +30,7 @@
       <p class="h-sub">Accès sportif, coach ou admin (à gérer côté PHP).</p>
     </div>
   </div>
+<?php echo "hello world" ?>
 
   <div class="grid grid-2">
     <section class="card">
