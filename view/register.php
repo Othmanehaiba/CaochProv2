@@ -1,3 +1,7 @@
+<?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -38,7 +42,8 @@
     </div>
     <div class="card-b">
       <!-- action à brancher côté PHP -->
-      <form class="form" data-js="validate" action="#" method="post">
+      <form class="form" data-js="validate" action="../app/Controllers/AuthController.php" method="post">
+        <input type="hidden" name="action" value="login">
         <div class="grid grid-2">
           <div class="field">
             <label class="label" for="prenom">Prénom</label>
@@ -104,7 +109,7 @@
           </div>
         </div>
 
-        <button class="btn primary" type="submit">Créer mon compte</button>
+        <button class="btn primary" name="submit" type="submit">Créer mon compte</button>
       </form>
     </div>
   </section>

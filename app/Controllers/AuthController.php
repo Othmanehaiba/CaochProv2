@@ -6,7 +6,7 @@ require_once __DIR__ . "/../Models/Sportif.php";
 class AuthController {
 
     public function register(){
-        if($_SERVER["REQUEST_METHOD"] === "POST"){
+        if($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])){
 
             $role = $_POST["role"];
 
@@ -43,5 +43,27 @@ class AuthController {
 
         }
     }
+    public function login(){
+        if($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])){
 
+            $role = $_POST["role"];
+
+            $repo = new UserRepository();
+
+            $repo->checkLogin($_POST["email"], $_POST["password"], $role);
+        }
+    }
+
+}
+
+$controller = new AuthController();
+
+$action = $_POST['action'] ?? '';
+
+if ($action === 'login') {
+    $controller->login();
+} elseif ($action === 'register') {
+    $controller->register();
+} else {
+    die("Action invalide");
 }

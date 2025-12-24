@@ -9,64 +9,66 @@ class UserRepository {
     }
 
     public function createCoach($coach): bool {
-        $sql = "INSERT INTO users (nom, prenom, email, mot_de_passe, role, discipline, experience, bio)
+        $sql = "INSERT INTO users (nom, prenom, email, pass, role, discipline, experience, bio)
                 VALUES (?, ?, ?, ?, 'coach', ?, ?, ?)";
 
         $stmt = $this->pdo->prepare($sql);
+
+        $hash = password_hash($coach->password, PASSWORD_DEFAULT);
+
         return $stmt->execute([
-            $coach->nom,  
+            $coach->nom,
             $coach->prenom,
             $coach->email,
-            $coach->password,
+            $hash,
             $coach->discipline,
             $coach->experience,
             $coach->description
         ]);
     }
+
     public function createSportif($sportif): bool {
-        $sql = "INSERT INTO users (nom, prenom, email, mot_de_passe, role)
+        $sql = "INSERT INTO users (nom, prenom, email, pass, role)
                 VALUES (?, ?, ?, ?, 'sportif')";
 
         $stmt = $this->pdo->prepare($sql);
+
+        $hash = password_hash($sportif->password, PASSWORD_DEFAULT);
+
         return $stmt->execute([
-            $sportif->nom,  
+            $sportif->nom,
             $sportif->prenom,
             $sportif->email,
-            $sportif->password,
+            $hash,
         ]);
     }
 
-    public function checkCoach($email, $password){
-        $sql = "SELECT * FROM coachs c JOIN users u WHERE u.id_user = c.id_user AND u.email = ? AND u.pass = ? ";
+    public function checkLogin(string $email, string $password, string $role): void {
+        $sql = "SELECT * FROM users WHERE email = ? AND role = ? AND pass = ? LIMIT 1";
         $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$email, $role, $password]);
 
-        if($stmt->execute($email, $password)){
-            header("Location: ../views/dashboard.coach.php");
-            exit;
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$user) {
+            die("User not found");
         }
-    }
 
-    public function checkSportif($email, $password){
-        $sql = "SELECT * FROM sportifs s JOIN users u WHERE s.id_user = c.id_user AND u.email = ? AND u.pass = ? ";
-        $stmt = $this->pdo->prepare($sql);
+        session_start();
+        $_SESSION["id_user"] = $user["id_user"];
+        $_SESSION["role"] = $user["role"];
+        $_SESSION["nom"] = $user["nom"];
+        $_SESSION["prenom"] = $user["prenom"];
 
-        if($stmt->execute($email, $password)){
+        if ($role === "coach") {
+            header("Location: ../../views/dashboard.coach.php");
+            exit;
+        } elseif ($role === "sportif") {
             header("Location: ../views/dashboard.sportif.php");
             exit;
-        }else{
-            die();
-        }
-    }
-
-    public function checkAdmin($email, $password){
-        $sql = "SELECT * FROM admin WHERE id_admin = 1 AND email = ? AND pass = ? ";
-        $stmt = $this->pdo->prepare($sql);
-
-        if($stmt->execute($email, $password)){
-            header("Location: ../views/dashboard.sportif.php");
+        } else { 
+            header("Location: ../views/dashboard.admin.php");
             exit;
-        }else{
-            die();
         }
     }
 }

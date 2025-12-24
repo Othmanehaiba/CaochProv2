@@ -40,7 +40,8 @@
       </div>
       <div class="card-b">
         <!-- action + method à brancher côté PHP -->
-        <form class="form" data-js="validate" action="#" method="post">
+        <form class="form" data-js="validate" action="../app/Controllers/AuthController.php" method="post">
+          <input type="hidden" name="action" value="login">
           <div class="field">
             <label class="label" for="email">Email</label>
             <input class="input" id="email" name="email" type="email" required data-validate="email" placeholder="ex: nom@mail.com" />
@@ -61,7 +62,7 @@
             </select>
           </div>
 
-          <button class="btn primary" type="submit">
+          <button class="btn primary" name="submit" type="submit">
             <img alt="" width="18" height="18"
               src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none'><path d='M6 9h9' stroke='%23e5e7eb' stroke-width='2' stroke-linecap='round'/><path d='M11 5l4 4-4 4' stroke='%2322c55e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/><path d='M3 3v12' stroke='%231f2937' stroke-width='2' stroke-linecap='round'/></svg>">
             Continuer
