@@ -89,7 +89,6 @@ document.addEventListener("submit", (e) => {
   }
 });
 
-// Example: confirm actions (delete/cancel/accept/reject)
 document.addEventListener("click", (e) => {
   const btn = e.target.closest("[data-confirm]");
   if(!btn) return;
@@ -98,21 +97,43 @@ document.addEventListener("click", (e) => {
   const msg   = btn.dataset.confirmMsg || "Voulez-vous continuer ?";
   const modalId = btn.dataset.confirmModal || "confirmModal";
 
-  // Fill modal content
   qs(`#${modalId} .modal-title`).textContent = title;
   qs(`#${modalId} [data-modal-msg]`).textContent = msg;
 
-  // Link action: you will replace by PHP later (form submit / link)
   const actionHint = btn.dataset.confirmActionHint || "Action à brancher côté PHP.";
   qs(`#${modalId} [data-modal-hint]`).textContent = actionHint;
 
   openModal(modalId);
 });
 
-// Close buttons
 document.addEventListener("click", (e) => {
   const x = e.target.closest("[data-modal-close]");
   if(!x) return;
   const bd = e.target.closest(".modal-backdrop");
   if(bd) closeModal(bd.id);
 });
+
+  const roleSelect = document.getElementById("role");
+  const coachFields = document.getElementById("coachFields");
+
+  function toggleCoachFields() {
+    if (roleSelect.value === "coach") {
+      coachFields.style.display = "block";
+
+      document.getElementById("experience").required = true;
+      document.getElementById("discipline").required = true;
+      document.getElementById("description").required = true;
+
+    } else {
+      coachFields.style.display = "none";
+
+      document.getElementById("experience").required = false;
+      document.getElementById("discipline").required = false;
+      document.getElementById("description").required = false;
+    }
+  }
+
+  toggleCoachFields();
+
+  roleSelect.addEventListener("change", toggleCoachFields);
+

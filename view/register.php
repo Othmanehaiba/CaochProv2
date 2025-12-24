@@ -68,9 +68,29 @@
             <option value="sportif">Sportif</option>
             <option value="coach">Coach</option>
           </select>
-          <div class="note">
-            Si "Coach", tu affiches côté PHP des champs en plus (discipline, expérience, description).
+          <div id="coachFields" style="display:none;">
+          <div class="field">
+            <label class="label" for="experience">Annee d'experience</label>
+            <input class="input" id="experience" name="experience" type="number" placeholder="5" />
           </div>
+
+          <div class="field">
+            <label class="label" for="discipline">Discipline</label>
+            <select class="select" id="discipline" name="discipline">
+              <option value="">Choisir...</option>
+              <option value="fitness">Fitness</option>
+              <option value="yoga">Yoga</option>
+              <option value="musculation">Musculation</option>
+              <option value="pilates">Pilates</option>
+              <option value="crossfit">CrossFit</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label class="label" for="description">Description</label>
+            <textarea class="input" id="description" name="description"></textarea>
+          </div>
+        </div>
         </div>
 
         <div class="grid grid-2">
@@ -109,7 +129,31 @@
     </div>
   </div>
 </div>
+<script>
+  const roleSelect = document.getElementById("role");
+  const coachFields = document.getElementById("coachFields");
 
-<script src="assets/js/app.js"></script>
+  function toggleCoachFields() {
+    if (!roleSelect || !coachFields) return;
+
+    if (roleSelect.value === "coach") {
+      coachFields.style.display = "block";
+      document.getElementById("experience").required = true;
+      document.getElementById("discipline").required = true;
+      document.getElementById("description").required = true;
+    } else {
+      coachFields.style.display = "none";
+      document.getElementById("experience").required = false;
+      document.getElementById("discipline").required = false;
+      document.getElementById("description").required = false;
+    }
+  }
+
+  // au chargement
+  toggleCoachFields();
+
+  // quand tu changes
+  roleSelect.addEventListener("change", toggleCoachFields);
+</script>
 </body>
 </html>

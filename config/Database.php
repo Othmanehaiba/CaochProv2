@@ -1,14 +1,12 @@
 <?php
-class Database{
-    private $host = "localhost";
-    private $user = "root";
-    private $pass = "Root@123";
-    private $dbName ="coach_platform";
+class Database {
+    private static ?PDO $pdo = null;
 
-    protected function connect(){
-        $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->dbName;
-        $pdo = new PDO($dsn, $this->user, $this->pass);
-        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-        return $pdo;
+    public static function connect(): PDO {
+        if(self::$pdo === null){
+            self::$pdo = new PDO("mysql:host=localhost;dbname=coach_platform;charset=utf8","root","Root@123");
+            self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        }
+        return self::$pdo;
     }
 }

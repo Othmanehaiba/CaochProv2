@@ -66,10 +66,6 @@
               src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none'><path d='M6 9h9' stroke='%23e5e7eb' stroke-width='2' stroke-linecap='round'/><path d='M11 5l4 4-4 4' stroke='%2322c55e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/><path d='M3 3v12' stroke='%231f2937' stroke-width='2' stroke-linecap='round'/></svg>">
             Continuer
           </button>
-
-          <div class="note">
-            Redirection après login (ex): sportif → dashboard.sportif.php, coach → dashboard.coach.php, admin → dashboard.admin.php.
-          </div>
         </form>
       </div>
     </section>
@@ -110,6 +106,6 @@
   </div>
 </div>
 
-<script src="assets/js/app.js"></script>
+<script src="assets/js/main.js"></script>
 </body>
 </html>
