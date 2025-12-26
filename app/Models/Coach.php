@@ -14,4 +14,6 @@ class Coach extends Utilisateur {
     }
 
     public function getDiscipline(){ return $this->discipline; }
+    public function getExperience(){ return $this->experience;}
+    public function getDescription(){ return $this->description;}
 }

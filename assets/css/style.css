@@ -64,6 +64,91 @@ img{max-width:100%; display:block}
 .navlinks a:hover{background:rgba(17,24,39,.7); color:var(--text)}
 .navlinks a.active{background:rgba(34,197,94,.14); color:var(--text); border:1px solid rgba(34,197,94,.25)}
 
+/* GRID: cards small */
+.coach-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap:14px;
+}
+
+/* CARD SMALL */
+.coach-card{
+  max-width: 320px;          /* prevents huge cards */
+  width: 100%;
+  background: linear-gradient(180deg, rgba(17,24,39,.85), rgba(15,23,42,.85));
+  border: 1px solid rgba(31,41,55,.9);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,.30);
+  transition: transform .15s ease;
+}
+
+.coach-card:hover{ transform: translateY(-3px); }
+
+/* PHOTO SMALL */
+.coach-photo{
+  height: 110px;             /* smaller image */
+  overflow:hidden;
+}
+.coach-photo img{
+  width:100%;
+  height:100%;
+  object-fit: cover;
+}
+
+/* BODY SMALL */
+.coach-body{
+  padding: 12px;             /* less padding */
+  display:flex;
+  flex-direction: column;
+  gap:6px;
+}
+
+.coach-name{
+  margin:0;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.coach-discipline{
+  margin:0;
+  font-size: 13px;
+  font-weight: 700;
+  color: #22c55e;
+}
+
+.coach-experience{
+  margin:0;
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+/* DESCRIPTION: clamp to 2 lines (so it doesn't grow) */
+.coach-desc{
+  margin:0;
+  font-size: 13px;
+  color: #d1d5db;
+  line-height: 1.35;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;     /* only 2 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* BUTTONS SMALL */
+.coach-actions{
+  margin-top: 6px;
+  display:flex;
+  gap:8px;
+}
+
+.btn.sm{
+  padding: 6px 10px;
+  font-size: 12px;
+  border-radius: 10px;
+}
+
 .header{
   display:flex; align-items:flex-end; justify-content:space-between; gap:16px;
   margin:18px 0 14px;
@@ -204,3 +289,23 @@ img{max-width:100%; display:block}
 .modal-actions{display:flex; gap:10px; justify-content:flex-end; margin-top:14px}
 .error{color:#fecaca; font-size:13px}
 .success{color:#b7f7cc; font-size:13px}
+.slot-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  padding:10px;
+  border:1px solid rgba(31,41,55,.8);
+  border-radius:12px;
+  background:rgba(17,24,39,.45);
+  margin-bottom:10px;
+}
+
+.slot-info{
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+}
+
+.slot-date{ font-weight:700; }
+.slot-time{ color:var(--muted); font-size:13px; }

@@ -8,7 +8,7 @@ error_reporting(E_ALL);
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard Admin</title>
-  <link rel="stylesheet" href=".../assets/css/style.css" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
 </head>
 <body>
 
@@ -60,16 +60,57 @@ error_reporting(E_ALL);
           </tr>
         </thead>
         <tbody>
-          <!-- PHP LOOP HERE -->
-          <tr>
-            <td colspan="5" class="empty">Liste des comptes à afficher via PHP.</td>
-          </tr>
+          
+          <tbody>
+<?php
+require_once __DIR__ . "/../app/Controllers/AdminController.php";
+
+$admin = new AdminController();
+$users = $admin->afficherProfiles(); 
+?>
+
+<?php if (empty($users)): ?>
+    <tr>
+        <td colspan="5" class="empty">No users found.</td>
+    </tr>
+<?php else: ?>
+    <?php foreach ($users as $u): ?>
+        <tr>
+            <td><?= (int)$u['id'] ?></td>
+
+            <td>
+                <?= htmlspecialchars($u['prenom'] . ' ' . $u['nom']) ?>
+            </td>
+
+            <td>
+                <?= htmlspecialchars($u['email']) ?>
+            </td>
+
+            <td>
+                <span class="pill <?= $u['role'] === 'coach' ? 'ok' : '' ?>">
+                    <?= htmlspecialchars($u['role']) ?>
+                </span>
+            </td>
+
+            <td>
+              <form action="../app/Controllers/AdminController.php" method="post" style="display:inline;">
+                <input type="hidden" name="user_id" value="<?= (int)$u['id'] ?>">
+                <button class="btn danger sm" type="submit"
+                  onclick="return confirm('Delete this user?');">
+                  Delete
+                </button>
+              </form>
+            </td>
+
+        </tr>
+    <?php endforeach; ?>
+<?php endif; ?>
+</tbody>
+
         </tbody>
       </table>
 
-      <div class="note" style="margin-top:12px">
-        Admin delete: POST côté PHP (CSRF + confirmation + éviter suppression de soi-même si tu veux).
-      </div>
+      
 
       <div class="hr"></div>
 

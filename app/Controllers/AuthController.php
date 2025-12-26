@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 require_once __DIR__ . "/../Repositories/UserRepository.php";
 require_once __DIR__ . "/../Models/Coach.php";
 require_once __DIR__ . "/../Models/Sportif.php";
@@ -24,7 +27,7 @@ class AuthController {
                 );
 
                 $repo->createCoach($coach);
-                header("Location: ../views/login.php");
+                header("Location: /views/login.php");
                 exit;
             }
 
@@ -36,7 +39,7 @@ class AuthController {
                     $_POST["password"]
                 );
                 $repo->createSportif($sportif);
-                header("Location: ../views/login.php");
+                header("Location: /views/login.php");
                 exit;
             }
 
@@ -50,10 +53,14 @@ class AuthController {
 
             $repo = new UserRepository();
 
-            $repo->checkLogin($_POST["email"], $_POST["password"], $role);
+            $user = $repo->checkLogin($_POST["email"], $_POST["password"], $role);
+
+            if(!$user){
+                echo "NOOOOOOOOK";
+                die("Email / password incorrect");
+            }
         }
     }
-
 }
 
 $controller = new AuthController();
@@ -64,6 +71,4 @@ if ($action === 'login') {
     $controller->login();
 } elseif ($action === 'register') {
     $controller->register();
-} else {
-    die("Action invalide");
 }

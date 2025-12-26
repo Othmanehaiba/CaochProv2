@@ -1,7 +1,3 @@
-<?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -20,7 +16,7 @@ error_reporting(E_ALL);
       SportCoach <span class="badge">Sportif</span>
     </a>
     <nav class="navlinks">
-      <a href="coach.php">Coachs</a>
+      <a href="coaches.php">Coachs</a>
       <a class="active" href="dashboard.sportif.php">Dashboard</a>
       <a href="profil.sportif.php">Profil</a>
       <a href="login.php">Déconnexion</a>
@@ -90,11 +86,46 @@ error_reporting(E_ALL);
             </tr>
           </thead>
           <tbody>
-            <!-- PHP LOOP HERE -->
-            <tr>
-              <td colspan="5" class="empty">Aucune séance à afficher (remplissage PHP).</td>
-            </tr>
-          </tbody>
+            <?php
+            session_start();
+            require_once __DIR__ . "/../app/Controllers/SportifController.php";
+            
+            $sportifId = (int)($_SESSION['user_id'] ?? 0);
+            
+            $ctrl = new SportifController();
+            $seances = $ctrl->afficherMesSeances($sportifId);
+            ?>
+            
+            <?php if (empty($seances)): ?>
+              <tr>
+                <td colspan="5" class="empty">Aucune séance réservée.</td>
+              </tr>
+            <?php else: ?>
+              <?php foreach ($seances as $s): ?>
+                <tr>
+                  <td><?= htmlspecialchars($s['date_seance']) ?></td>
+                  <td><?= htmlspecialchars(substr($s['heure'], 0, 5)) ?></td>
+                  <td><?= htmlspecialchars($s['coach_prenom'] . ' ' . $s['coach_nom']) ?></td>
+                  <td>
+                    <span class="pill <?= $s['seance_statut'] === 'reservee' ? 'ok' : 'wait' ?>">
+                      <?= htmlspecialchars($s['seance_statut']) ?>
+                    </span>
+                  </td>
+                  <td>
+                    <!-- Exemple bouton annuler (à brancher en PHP ensuite) -->
+                    <form action="../actions/cancel_reservation.php" method="post" style="display:inline;">
+                      <input type="hidden" name="reservation_id" value="<?= (int)$s['reservation_id'] ?>">
+                      <button class="btn danger sm" type="submit"
+                        onclick="return confirm('Annuler cette réservation ?');">
+                        Annuler
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
+            <?php endif; ?>
+</tbody>
+
         </table>
 
         <div class="note" style="margin-top:12px">

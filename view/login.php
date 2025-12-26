@@ -17,9 +17,9 @@
       <span class="badge">MVP</span>
     </a>
     <nav class="navlinks">
-      <a href="coach.php">Coachs</a>
+      <a href="/view/coaches.php">Coachs</a>
       <a class="active" href="login.php">Connexion</a>
-      <a href="register.php">Inscription</a>
+      <a href="/view/register.php">Inscription</a>
     </nav>
   </div>
 </header>
@@ -30,8 +30,6 @@
       <p class="h-sub">Accès sportif, coach ou admin (à gérer côté PHP).</p>
     </div>
   </div>
-<?php echo "hello world" ?>
-
   <div class="grid grid-2">
     <section class="card">
       <div class="card-h">

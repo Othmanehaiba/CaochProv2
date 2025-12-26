@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "/../../config/database.php";
+require_once __DIR__ . "/../../config/Database.php";
 
 class UserRepository {
     private PDO $pdo;
@@ -9,21 +9,32 @@ class UserRepository {
     }
 
     public function createCoach($coach): bool {
-        $sql = "INSERT INTO users (nom, prenom, email, pass, role, discipline, experience, bio)
-                VALUES (?, ?, ?, ?, 'coach', ?, ?, ?)";
+       $sqlUser = "INSERT INTO users (nom, prenom, email, pass, role)
+                    VALUES (?, ?, ?, ?, 'coach')";
+        $stmtUser = $this->pdo->prepare($sqlUser);
 
-        $stmt = $this->pdo->prepare($sql);
+        $okUser = $stmtUser->execute([
+            $coach->getNom(),
+            $coach->getPrenom(),
+            $coach->getEmail(),
+            $coach->getPassword()   
+        ]);
 
-        $hash = password_hash($coach->password, PASSWORD_DEFAULT);
+        if (!$okUser) {
+            return false;
+        }
 
-        return $stmt->execute([
-            $coach->nom,
-            $coach->prenom,
-            $coach->email,
-            $hash,
-            $coach->discipline,
-            $coach->experience,
-            $coach->description
+        $userId = $this->pdo->lastInsertId();
+
+        $sqlCoach = "INSERT INTO coachs (user_id, discipline, experience, description)
+                     VALUES (?, ?, ?, ?)";
+        $stmtCoach = $this->pdo->prepare($sqlCoach);
+
+        return $stmtCoach->execute([
+            $userId,
+            $coach->getDiscipline(),
+            $coach->getExperience(),
+            $coach->getDescription()
         ]);
     }
 
@@ -33,13 +44,11 @@ class UserRepository {
 
         $stmt = $this->pdo->prepare($sql);
 
-        $hash = password_hash($sportif->password, PASSWORD_DEFAULT);
-
         return $stmt->execute([
-            $sportif->nom,
-            $sportif->prenom,
-            $sportif->email,
-            $hash,
+            $sportif->getNom(),
+            $sportif->getPrenom(),
+            $sportif->getEmail(),
+            $sportif->getPassword()
         ]);
     }
 
@@ -61,14 +70,29 @@ class UserRepository {
         $_SESSION["prenom"] = $user["prenom"];
 
         if ($role === "coach") {
-            header("Location: ../../views/dashboard.coach.php");
+            header("Location: /views/dashboard.coach.php");
             exit;
         } elseif ($role === "sportif") {
-            header("Location: ../views/dashboard.sportif.php");
+            header("Location: /views/dashboard.sportif.php");
             exit;
         } else { 
-            header("Location: ../views/dashboard.admin.php");
+            header("Location: /views/dashboard.admin.php");
             exit;
         }
     }
+
+    public function getAllProfiles(): array {
+
+            $sql = "SELECT 
+                      u.id, u.nom, u.prenom, u.email, u.role,
+                      c.discipline, c.experience
+                    FROM users u
+                    LEFT JOIN coachs c ON c.user_id = u.id
+                    ORDER BY u.id DESC";
+
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }

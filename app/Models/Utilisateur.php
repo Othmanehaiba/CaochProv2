@@ -14,8 +14,10 @@ class Utilisateur {
         $this->password = $password;
         $this->role = $role;
     }
-
+    public function getNom(){return $this->nom;}
+    public function getPrenom(){return $this->prenom;}
     public function getEmail(){ return $this->email; }
+    public function getPassword(){return $this->password;}
     public function getRole(){ return $this->role; }
 
     public function setNom($nom){ $this->nom = $nom; }

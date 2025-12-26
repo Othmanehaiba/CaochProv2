@@ -1,6 +1,7 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
+require_once __DIR__ . "/../app/Controllers/CoachController.php";
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -14,7 +15,7 @@ error_reporting(E_ALL);
 
 <header class="topbar">
   <div class="nav">
-    <a class="brand" href="coach.php">
+    <a class="brand" href="coaches.php">
       <img alt="logo" width="24" height="24"
         src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none'><path d='M6 14c2.5-6 9.5-6 12 0' stroke='%2322c55e' stroke-width='2' stroke-linecap='round'/><path d='M7 7h10' stroke='%23e5e7eb' stroke-width='2' stroke-linecap='round'/></svg>">
       SportCoach <span class="badge">Coachs</span>
@@ -46,30 +47,62 @@ error_reporting(E_ALL);
   </div>
 
   <section class="card">
-    <div class="card-h">
-      <h2 class="card-title">Résultats</h2>
-      <span class="pill">Liste</span>
-    </div>
-    <div class="card-b">
+  <div class="card-h">
+    <h2 class="card-title">Résultats</h2>
+    <span class="pill">Liste</span>
+  </div>
 
-      <!-- PHP LOOP HERE: foreach($coachs as $c) { ... } -->
-      <div class="grid grid-3" id="coachList">
-        <!-- Laisse vide si tu veux.
-             Sinon tu peux garder 1 card "exemple" puis la remplacer par PHP -->
-        <div class="empty">
-          Zone des coachs (cards). Remplissage côté PHP.
+  <div class="card-b">
+    <?php
+      $coachesCtrl = new CoachController();
+      $list = $coachesCtrl->afficherCoaches();
+    ?>
+
+    <div class="coach-grid">
+      <?php foreach ($list as $c): ?>
+        <div class="coach-card">
+          <div class="coach-photo">
+            <img 
+                src="https://ui-avatars.com/api/?name=<?= urlencode($c['prenom'].' '.$c['nom']) ?>&background=0f172a&color=22c55e&size=256"
+                alt="Coach photo">
+          </div>
+
+          <div class="coach-body">
+            <h3 class="coach-name">
+              <?= htmlspecialchars($c['prenom'] . ' ' . $c['nom']) ?>
+            </h3>
+
+            <p class="coach-discipline">
+              <?= htmlspecialchars($c['discipline']) ?>
+            </p>
+
+            <p class="coach-experience">
+              <?= (int)$c['experience'] ?> years of experience
+            </p>
+
+            <p class="coach-desc">
+              <?= htmlspecialchars($c['description']) ?>
+            </p>
+
+            <div class="coach-actions">
+              <a href="profil.coach.php?id=<?= (int)$c['id'] ?>" class="btn primary sm">
+                View
+              </a>
+
+              <a href="book.php?coach_id=<?= (int)$c['id'] ?>" class="btn sm">
+                Book
+              </a>
+
+            </div>
+          </div>
         </div>
-      </div>
-
-      <div class="hr"></div>
-
-      <div class="note">
-        Action "Voir profil" → profil.coach.php?id=...
-        Action "Réserver" → page/section de réservation (tu peux gérer via dashboard sportif).
-      </div>
-
+      <?php endforeach; ?>
     </div>
-  </section>
+
+    <div class="hr"></div>
+  </div>
+</section>
+
 
   <div class="footer">SportCoach • Template front</div>
 </main>
@@ -88,6 +121,28 @@ error_reporting(E_ALL);
         <button class="btn" type="button" data-modal-close>Annuler</button>
         <button class="btn primary" type="button" data-modal-close>OK</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="bookModal" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-label="Booking">
+    <div class="modal-h">
+      <h3 class="modal-title">Choose availability</h3>
+      <button class="modal-x" type="button" data-modal-close>&times;</button>
+    </div>
+
+    <div class="modal-b">
+      <div class="note" style="margin-bottom:12px">
+        Select a slot. Only "disponible" slots will appear.
+      </div>
+
+      <div id="slotsBox" class="empty">Loading...</div>
+
+      <form id="bookForm" action="../actions/book_seance.php" method="post" style="display:none;margin-top:12px">
+        <input type="hidden" name="seance_id" id="seance_id">
+        <button class="btn primary" type="submit">Confirm booking</button>
+      </form>
     </div>
   </div>
 </div>

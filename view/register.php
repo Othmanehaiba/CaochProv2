@@ -43,7 +43,7 @@ error_reporting(E_ALL);
     <div class="card-b">
       <!-- action à brancher côté PHP -->
       <form class="form" data-js="validate" action="../app/Controllers/AuthController.php" method="post">
-        <input type="hidden" name="action" value="login">
+        <input type="hidden" name="action" value="register">
         <div class="grid grid-2">
           <div class="field">
             <label class="label" for="prenom">Prénom</label>
