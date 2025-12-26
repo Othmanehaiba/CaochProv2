@@ -44,29 +44,58 @@ class AuthController {
             }
         }
     }
-    public function login(){
-        if($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])){
+    public function login(): void
+{
+    // if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    //     header("Location: /view/login.php");
+    //     exit;
+    // }
 
-            $role = $_POST["role"];
+    $role = $_POST["role"] ;
+    $email = $_POST["email"] ;
+    $password = $_POST["password"] ;
 
-            $repo = new UserRepository();
+    $repo = new UserRepository();
+    $user = $repo->checkLogin($email, $password, $role);
 
-            $user = $repo->checkLogin($_POST["email"], $_POST["password"], $role);
+    // if ($user) {
+    //     var_dump($user);
+    //     die("user notfo");
+       
+    // }
 
-            if(!$user){
-                echo "NOOOOOOOOK";
-                die("Email / password incorrect");
-            }
-        }
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
     }
+
+    $_SESSION["id"] = (int)$user["id"];
+    $_SESSION["role"] = $user["role"];
+    $_SESSION["nom"] = $user["nom"];
+    $_SESSION["prenom"] = $user["prenom"];
+
+    if ($user["role"] === "coach") {
+    header("Location: ./view/dashboard.coach.php");
+    exit;
+} elseif ($user["role"] === "sportif") {
+    header("Location: /view/dashboard.sportif.php");
+    exit;
+} else {
+    header("Location: /view/dashboard.admin.php");
+    exit;
+}
+}
+
 }
 
     $controller = new AuthController();
     
-    $action = $_POST['action'] ?? '';
-    
-    if ($action === 'login') {
+    // var_dump($_POST);
+  
+    if ($_POST["action"] === 'login') {
         $controller->login();
-    } elseif ($action === 'register') {
+    
+    } elseif ($_POST["action"] === 'register') {
         $controller->register();
+        echo "jdjd";
     }
+    

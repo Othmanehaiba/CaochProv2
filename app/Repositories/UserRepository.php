@@ -52,35 +52,16 @@ class UserRepository {
         ]);
     }
 
-    public function checkLogin(string $email, string $password, string $role): array {
-        $sql = "SELECT * FROM users WHERE email = ? AND role = ? AND pass = ? LIMIT 1";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([$email, $role, $password]);
+    public function checkLogin(string $email, string $password, string $role): array
+{
+    $sql = "SELECT * FROM users WHERE email = ? AND role = ? AND pass = ? LIMIT 1";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$email, $role, $password]);
 
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $user ?: null;
+}
 
-        // if (!$user) {
-        //     die("User not found");
-        // }
-
-        session_start();
-        $_SESSION["id"] = $user["id"];
-        $_SESSION["role"] = $user["role"];
-        $_SESSION["nom"] = $user["nom"];
-        $_SESSION["prenom"] = $user["prenom"];
-
-        if ($role === "coach") {
-            header("Location: /view/dashboard.coach.php");
-            exit;
-        } elseif ($role === "sportif") {
-            header("Location: /view/dashboard.sportif.php");
-            exit;
-        } else { 
-            header("Location: /view/dashboard.admin.php");
-            exit;
-        }
-        return $user;
-    }
 
     public function getAllProfiles(): array {
 

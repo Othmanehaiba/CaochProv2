@@ -23,7 +23,7 @@ require_once __DIR__ . "/../app/Controllers/CoachController.php";
     <nav class="navlinks">
       <a class="active" href="coach.php">Coachs</a>
       <a href="dashboard.sportif.php">Dashboard Sportif</a>
-      <a href="login.php">Déconnexion</a>
+      <a href="logout.php">Déconnexion</a>
     </nav>
   </div>
 </header>

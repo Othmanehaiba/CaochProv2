@@ -27,7 +27,7 @@ $users = $admin->afficherProfiles();
     </a>
     <nav class="navlinks">
       <a class="active" href="dashboard.admin.php">Dashboard</a>
-      <a href="login.php">Déconnexion</a>
+      <a href="logout.php">Déconnexion</a>
     </nav>
   </div>
 </header>

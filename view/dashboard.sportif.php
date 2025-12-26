@@ -19,7 +19,7 @@
       <a href="coaches.php">Coachs</a>
       <a class="active" href="dashboard.sportif.php">Dashboard</a>
       <a href="profil.sportif.php">Profil</a>
-      <a href="login.php">Déconnexion</a>
+      <a href="logout.php">Déconnexion</a>
     </nav>
   </div>
 </header>

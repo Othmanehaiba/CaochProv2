@@ -55,7 +55,7 @@ $valideCount = (int)$stmt->fetchColumn();
     <nav class="navlinks">
       <a class="active" href="dashboard.coach.php">Dashboard</a>
       <a href="profil.coach.php">Profil</a>
-      <a href="login.php">Déconnexion</a>
+      <a href="logout.php">Déconnexion</a>
     </nav>
   </div>
 </header>

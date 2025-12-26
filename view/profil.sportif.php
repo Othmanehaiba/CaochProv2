@@ -22,7 +22,7 @@ error_reporting(E_ALL);
     <nav class="navlinks">
       <a href="dashboard.sportif.php">Dashboard</a>
       <a class="active" href="profil.sportif.php">Profil</a>
-      <a href="login.php">Déconnexion</a>
+      <a href="logout.php">Déconnexion</a>
     </nav>
   </div>
 </header>
