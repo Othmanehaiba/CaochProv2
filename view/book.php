@@ -1,6 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 session_start();
-require_once "../config/database.php";
+require_once __DIR__ . "/../config/Database.php";
 
 if (!isset($_GET['coach_id'])) {
     die("Coach not found");
@@ -34,7 +36,7 @@ $seances = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <p>Aucune disponibilité pour ce coach.</p>
 <?php else: ?>
   <?php foreach ($seances as $s): ?>
-    <form method="post" action="../actions/book_seance.php" style="margin-bottom:10px;">
+    <form method="post" action="../app/actions/book_seance.php" style="margin-bottom:10px;">
       <input type="hidden" name="seance_id" value="<?= (int)$s['id'] ?>">
 
       <div class="card">

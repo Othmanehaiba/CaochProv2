@@ -1,6 +1,12 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
+
+require_once __DIR__ . "/../app/Controllers/AdminController.php";
+
+$admin = new AdminController();
+$users = $admin->afficherProfiles(); 
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -62,12 +68,6 @@ error_reporting(E_ALL);
         <tbody>
           
           <tbody>
-<?php
-require_once __DIR__ . "/../app/Controllers/AdminController.php";
-
-$admin = new AdminController();
-$users = $admin->afficherProfiles(); 
-?>
 
 <?php if (empty($users)): ?>
     <tr>
@@ -93,10 +93,9 @@ $users = $admin->afficherProfiles();
             </td>
 
             <td>
-              <form action="../app/Controllers/AdminController.php" method="post" style="display:inline;">
+              <form action="../app/actions/delete_user.php" method="post" style="display:inline;">
                 <input type="hidden" name="user_id" value="<?= (int)$u['id'] ?>">
-                <button class="btn danger sm" type="submit"
-                  onclick="return confirm('Delete this user?');">
+                <button class="btn danger sm" type="submit" onclick="return confirm('Delete this user?');">
                   Delete
                 </button>
               </form>

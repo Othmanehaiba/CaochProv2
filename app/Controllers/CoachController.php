@@ -31,4 +31,11 @@ class CoachController {
         
         return $user;
     }
+
+    public function afficherDemandes(int $coachId): array{
+        $repo = new ReservationRepository();
+
+        // ⬇️ this returns the array
+        return $repo->getRequestsForCoach($coachId);
+    } 
 }

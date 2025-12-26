@@ -27,7 +27,7 @@ class AuthController {
                 );
 
                 $repo->createCoach($coach);
-                header("Location: /views/login.php");
+                header("Location: /view/login.php");
                 exit;
             }
 
@@ -39,11 +39,9 @@ class AuthController {
                     $_POST["password"]
                 );
                 $repo->createSportif($sportif);
-                header("Location: /views/login.php");
+                header("Location: /view/login.php");
                 exit;
             }
-
-
         }
     }
     public function login(){
@@ -63,12 +61,12 @@ class AuthController {
     }
 }
 
-$controller = new AuthController();
-
-$action = $_POST['action'] ?? '';
-
-if ($action === 'login') {
-    $controller->login();
-} elseif ($action === 'register') {
-    $controller->register();
-}
+    $controller = new AuthController();
+    
+    $action = $_POST['action'] ?? '';
+    
+    if ($action === 'login') {
+        $controller->login();
+    } elseif ($action === 'register') {
+        $controller->register();
+    }

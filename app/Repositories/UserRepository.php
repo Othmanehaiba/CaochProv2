@@ -52,33 +52,34 @@ class UserRepository {
         ]);
     }
 
-    public function checkLogin(string $email, string $password, string $role): void {
+    public function checkLogin(string $email, string $password, string $role): array {
         $sql = "SELECT * FROM users WHERE email = ? AND role = ? AND pass = ? LIMIT 1";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$email, $role, $password]);
 
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if (!$user) {
-            die("User not found");
-        }
+        // if (!$user) {
+        //     die("User not found");
+        // }
 
         session_start();
-        $_SESSION["id_user"] = $user["id_user"];
+        $_SESSION["id"] = $user["id"];
         $_SESSION["role"] = $user["role"];
         $_SESSION["nom"] = $user["nom"];
         $_SESSION["prenom"] = $user["prenom"];
 
         if ($role === "coach") {
-            header("Location: /views/dashboard.coach.php");
+            header("Location: /view/dashboard.coach.php");
             exit;
         } elseif ($role === "sportif") {
-            header("Location: /views/dashboard.sportif.php");
+            header("Location: /view/dashboard.sportif.php");
             exit;
         } else { 
-            header("Location: /views/dashboard.admin.php");
+            header("Location: /view/dashboard.admin.php");
             exit;
         }
+        return $user;
     }
 
     public function getAllProfiles(): array {
@@ -88,11 +89,27 @@ class UserRepository {
                       c.discipline, c.experience
                     FROM users u
                     LEFT JOIN coachs c ON c.user_id = u.id
-                    ORDER BY u.id DESC";
+                    ORDER BY u.id ASC";
 
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function deleteById(int $userId): bool{
+    // If coachs table uses FK to users.id, delete child row first
+    // $stmt = $this->pdo->prepare("DELETE FROM coachs WHERE user_id = ?");
+    // $stmt->execute([$userId]);
+
+    // If sportifs table exists (optional), delete child row too
+    // $stmt = $this->pdo->prepare("DELETE FROM sportifs WHERE user_id = ?");
+    // $stmt->execute([$userId]);
+
+    // Finally delete from users
+    $stmt = $this->pdo->prepare("DELETE FROM users WHERE id = ?");
+    return $stmt->execute([$userId]);
+
+    }
+
 
 }

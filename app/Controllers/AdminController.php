@@ -1,21 +1,22 @@
 <?php
-require_once __DIR__ . "/../../config/Database.php";
+require_once __DIR__ . "/../Repositories/UserRepository.php";
 
-class AdminController {
-    private PDO $pdo;
+class AdminController
+{
+    private UserRepository $repo;
 
-    public function __construct(){
-        $this->pdo = Database::connect();
+    public function __construct()
+    {
+        $this->repo = new UserRepository();
     }
 
-    public function afficherProfiles(){
-        $sql = "SELECT *
-                FROM users ";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute();
+    public function afficherProfiles(): array
+    {
+        return $this->repo->getAllProfiles();
+    }
 
-        $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
-        return $user;        
+    public function deleteUser(int $userId): bool
+    {
+        return $this->repo->deleteById($userId);
     }
 }
